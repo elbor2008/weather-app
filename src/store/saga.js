@@ -3,6 +3,7 @@ import { put, call, takeEvery, all, select } from 'redux-saga/effects';
 
 function* fetchData(action) {
   try {
+    yield put({ type: 'SET_LOADING', payload: { isLoading: true } });
     const cityName = action.payload.city || '';
     let weather = yield call(() =>
       axios.get('http://localhost:5000/api/weather?city=' + cityName)
@@ -16,12 +17,14 @@ function* fetchData(action) {
     const limit = action.payload.limit;
     forecast = forecast.weathers.filter((value, index) => index <= limit);
     yield put({ type: 'INIT', payload: { weather, forecast, city } });
+    yield put({ type: 'SET_LOADING', payload: { isLoading: false } });
   } catch (e) {
     yield put({ type: 'ERROR' });
   }
 }
 function* fetchDataByLimit(action) {
   try {
+    yield put({ type: 'SET_LOADING', payload: { isLoading: true } });
     const { limit } = action.payload;
     const state = yield select();
     const city = state.city.name;
@@ -31,6 +34,7 @@ function* fetchDataByLimit(action) {
     forecast = forecast.data.data;
     forecast = forecast.weathers.filter((value, index) => index <= limit);
     yield put({ type: 'INIT', payload: { forecast } });
+    yield put({ type: 'SET_LOADING', payload: { isLoading: false } });
   } catch (e) {
     yield put({ type: 'ERROR' });
   }

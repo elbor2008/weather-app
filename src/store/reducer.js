@@ -2,7 +2,8 @@ const initialState = {
   weather: {},
   forecast: [],
   city: {},
-  isError: false
+  isError: false,
+  isLoading: false
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -15,6 +16,11 @@ export default (state = initialState, { type, payload }) => {
         forecast: [],
         city: {},
         isError: true
+      };
+    case 'SET_LOADING':
+      return {
+        ...state,
+        isLoading: payload.isLoading
       };
     default:
       return state;

@@ -6,12 +6,11 @@ class WeatherForecast extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      leftBtn: true,
-      rightBtn: false
+      limit: 4
     };
   }
-  handleSearch = (limit, isLeftBtnClicked) => {
-    this.setState({ leftBtn: isLeftBtnClicked, rightBtn: !isLeftBtnClicked });
+  handleSearch = limit => {
+    this.setState({ limit });
     this.props.searchByLimit(limit);
   };
   render() {
@@ -21,21 +20,21 @@ class WeatherForecast extends Component {
         <div className="weather-forecast__switch">
           <button
             className={
-              this.state.leftBtn
+              this.state.limit === 4
                 ? 'weather-forecast__switch--5 active'
                 : 'weather-forecast__switch--5'
             }
-            onClick={() => this.handleSearch(4, true)}
+            onClick={() => this.handleSearch(4)}
           >
             5 items
           </button>
           <button
             className={
-              this.state.rightBtn
+              this.state.limit === 9
                 ? 'weather-forecast__switch--10 active'
                 : 'weather-forecast__switch--10'
             }
-            onClick={() => this.handleSearch(9, false)}
+            onClick={() => this.handleSearch(9)}
           >
             10 items
           </button>
